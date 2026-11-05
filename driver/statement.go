@@ -249,7 +249,10 @@ func waitForJobDone(
 			return err
 		}
 		if status.Done() {
-			return status.Err()
+			if err := status.Err(); err != nil {
+				return err
+			}
+			return nil
 		}
 		timer := time.NewTimer(pause)
 		select {
